@@ -1,0 +1,42 @@
+﻿@using School.Domain
+@model Student
+
+<div class="container mt-5">
+    <div class="card shadow-sm rounded-3">
+        <div class="row g-0">
+            <!-- Left Column: Student Image -->
+            <div class="col-md-4 text-center p-4 border-end">
+                <img src="~/images/@Model.ImageURL" class="img-fluid rounded-circle mb-3" alt="@Model.Name" style="width:180px; height:180px; object-fit:cover;">
+                <h4 class="fw-bold">@Model.Name</h4>
+                <p class="text-muted mb-0">@Model.Email</p>
+                <small class="text-muted">SSN: @Model.SSN</small>
+            </div>
+
+            <!-- Right Column: Student Details -->
+            <div class="col-md-8 p-4">
+                <h5 class="mb-3">Student Information</h5>
+                <div class="row mb-2">
+                    <div class="col-sm-4 text-muted">Age:</div>
+                    <div class="col-sm-8">@Model.Age</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-4 text-muted">Address:</div>
+                    <div class="col-sm-8">@Model.Address</div>
+                </div>
+
+                <!-- Action Buttons -->
+               @*  <div class="mt-4">
+                    <a href="@Url.Action("Edit", "Students", new { id = Model.Id })" class="btn btn-warning me-2">
+                        Edit
+                    </a>
+                    <a href="@Url.Action("Index", "Students")" class="btn btn-secondary me-2">
+                        Back
+                    </a>
+                    <a href="@Url.Action("Delete", "Students", new { id = Model.Id })" class="btn btn-danger">
+                        Delete
+                    </a>
+                </div> *@
+            </div>
+        </div>
+    </div>
+</div>
