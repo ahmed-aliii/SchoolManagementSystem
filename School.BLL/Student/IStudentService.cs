@@ -9,7 +9,10 @@ namespace School.BLL
 {
     public interface IStudentService
     {
-        Task<List<Student>> GetAllStudentsAsync();
-        Task<Student> GetStudentByIdAsync(int id);
+        Task<IEnumerable<Student>> GetAllAsync();
+        Task<Student> GetByIdAsync(int id);
+        Task AddAsync(Student student);
+        Task UpdateAsync(Student student);
+        Task DeleteAsync(int id);
     }
 }

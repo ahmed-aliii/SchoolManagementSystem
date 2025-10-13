@@ -1,0 +1,58 @@
+﻿@using School.Domain
+@model List<Department>
+
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Departments</h2>
+        <a href="/Department/Create" class="btn btn-primary">Create New Department</a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Manager</th>
+                            <th>Location</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center">No departments available.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            int count = 1;
+                            foreach (var dept in Model)
+                            {
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@dept.Name</td>
+                                    <td>@dept.Manager</td>
+                                    <td>@dept.Location</td>
+                                    <td class="text-end">
+                                        <a href="/Department/Details/@dept.Id" class="btn btn-sm btn-info me-1">Details</a>
+                                        <a href="/Department/Edit/@dept.Id" class="btn btn-sm btn-warning me-1">Edit</a>
+                                        <a href="/Department/Delete/@dept.Id" class="btn btn-sm btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

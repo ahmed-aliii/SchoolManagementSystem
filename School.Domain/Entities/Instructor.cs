@@ -7,25 +7,27 @@ using System.Threading.Tasks;
 
 namespace School.Domain
 {
-    public class Student
+    public class Instructor
     {
-        public int Id { get; set; }
+        public  int Id { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
-        public int Age { get; set; }
         public string Address { get; set; }
+        public int Age { get; set; }
+        public decimal Salary { get; set; }
         public string ImageURL { get; set; }
+        public DateTime HireDate { get; set; }
 
-
-        #region Student M---1 Department
-        public Department Department { get; set; }
+        #region Instructor M---1 Department
+        public virtual Department Department { get; set; }
 
         [ForeignKey("Department")]
         public int DepartmentId { get; set; }
         #endregion
 
-        #region Student 1---M StudentCourse
-        public ICollection<StudentCourse> StudentCourses { get; set; } = new List<StudentCourse>();
+        #region Instructor 1---M InstructorCourse
+        public ICollection<InstructorCourse> InstructorCourses { get; set; } = new List<InstructorCourse>();
         #endregion
+
+
     }
 }

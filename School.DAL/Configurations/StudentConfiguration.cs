@@ -13,33 +13,45 @@ namespace School.DAL
     {
         public void Configure(EntityTypeBuilder<Student> builder)
         {
-            // Table name (optional, defaults to "Students")
+            // Table name
             builder.ToTable("Students");
 
-            // Primary key
+            // Primary Key
             builder.HasKey(s => s.Id);
 
-            // Properties
+            //Properties
             builder.Property(s => s.Name)
                    .IsRequired()
                    .HasMaxLength(100);
 
-            builder.Property(s => s.SSN)
-                .IsRequired();
-
             builder.Property(s => s.Email)
                    .IsRequired()
-                   .HasMaxLength(150);
+                   .HasMaxLength(100);
 
             builder.Property(s => s.Age)
                    .IsRequired();
 
             builder.Property(s => s.Address)
-                   .IsRequired();
-
-            builder.Property(s => s.ImageURL)
                    .HasMaxLength(250);
 
+            builder.Property(s => s.ImageURL)
+                   .HasMaxLength(500);
+
+            // Relationships ----------------------------
+
+            #region Student M---1 Department
+            builder.HasOne(s => s.Department)
+                   .WithMany(d => d.Students)
+                   .HasForeignKey(s => s.DepartmentId)
+                   .OnDelete(DeleteBehavior.Restrict); 
+            #endregion
+
+            #region Student 1---M StudentCourse
+            builder.HasMany(s => s.StudentCourses)
+                   .WithOne(sc => sc.Student)
+                   .HasForeignKey(sc => sc.StudentId)
+                   .OnDelete(DeleteBehavior.Cascade);
+            #endregion
         }
     }
 }

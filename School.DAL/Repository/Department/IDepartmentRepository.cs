@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace School.DAL
 {
-    public interface IStudentRepository
+    public interface IDepartmentRepository
     {
-        Task<IEnumerable<Student>> GetAllAsync();
-        Task<Student> GetByIdAsync(int id);
-        Task AddAsync(Student student);
-        Task UpdateAsync(Student student);
+        Task<IEnumerable<Department>> GetAllAsync();
+        Task<Department> GetByIdAsync(int id);
+        Task AddAsync(Department department);
+        Task UpdateAsync(Department department);
         Task DeleteAsync(int id);
         Task<bool> ExistsAsync(int id);
     }
-
-
 }
