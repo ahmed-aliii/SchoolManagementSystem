@@ -1,0 +1,80 @@
+﻿@model List<Instructor>
+
+@{
+    ViewData["Title"] = "Instructors";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center rounded-top-4">
+            <h3 class="mb-0 fw-bold">Instructors</h3>
+            <a asp-action="Create" asp-controller="Instructor" class="btn btn-light fw-semibold">
+                <i class="bi bi-plus-circle me-1"></i> Add New Instructor
+            </a>
+        </div>
+
+        <div class="card-body p-4">
+            @if (Model != null && Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table align-middle table-hover text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Age</th>
+                                <th>Salary</th>
+                                <th>Hire Date</th>
+                                <th>Department</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var instructor in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="~/images/@instructor.ImageURL"
+                                             alt="@instructor.Name"
+                                             class="rounded-circle"
+                                             style="width:70px; height:70px; object-fit:cover;">
+                                    </td>
+                                    <td class="fw-semibold">@instructor.Name</td>
+                                    <td>@instructor.Address</td>
+                                    <td>@instructor.Age</td>
+                                    <td>@instructor.Salary.ToString("C")</td>
+                                    <td>@instructor.HireDate.ToString("yyyy-MM-dd")</td>
+                                    <td>@instructor.Department?.Name</td>
+                                    <td>
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <a asp-action="Details" asp-controller="Instructor" asp-route-id="@instructor.Id"
+                                               class="btn btn-info btn-sm text-white">
+                                                Details
+                                            </a>
+                                            <a asp-action="Update" asp-controller="Instructor" asp-route-id="@instructor.Id"
+                                               class="btn btn-warning btn-sm text-white">
+                                                Update
+                                            </a>
+                                            <a asp-action="Delete" asp-controller="Instructor" asp-route-id="@instructor.Id"
+                                               class="btn btn-danger btn-sm">
+                                                Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning text-center rounded-3 shadow-sm mb-0">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    No instructors found.
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,40 +1,48 @@
-﻿@using School.Domain
-@model Student
+﻿@model Student
 
-<div class="container mt-5">
-    <div class="card shadow-sm rounded-3">
-        <div class="row g-0">
-            <!-- Left Column: Student Image -->
-            <div class="col-md-4 text-center p-4 border-end">
-                <img src="~/images/@Model.ImageURL" class="img-fluid rounded-circle mb-3" alt="@Model.Name" style="width:180px; height:180px; object-fit:cover;">
-                <h4 class="fw-bold">@Model.Name</h4>
+<div class="container my-5">
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        <div class="row g-0 align-items-center">
+
+            <!-- Left Section: Student Image -->
+            <div class="col-md-4 bg-light text-center p-5">
+                <img src="~/images/@Model.ImageURL" alt="@Model.Name"
+                     class="img-fluid rounded-circle shadow-sm mb-3"
+                     style="width:180px; height:180px; object-fit:cover;">
+                <h4 class="fw-bold mb-1">@Model.Name</h4>
                 <p class="text-muted mb-0">@Model.Email</p>
             </div>
 
-            <!-- Right Column: Student Details -->
-            <div class="col-md-8 p-4">
-                <h5 class="mb-3">Student Information</h5>
-                <div class="row mb-2">
-                    <div class="col-sm-4 text-muted">Age:</div>
-                    <div class="col-sm-8">@Model.Age</div>
+            <!-- Right Section: Student Info -->
+            <div class="col-md-8 p-5">
+                <h5 class="fw-semibold mb-4 border-bottom pb-2">Student Information</h5>
+
+                <div class="mb-3 d-flex justify-content-between">
+                    <span class="text-muted fw-semibold" style="width: 120px;">Age:</span>
+                    <span>@Model.Age</span>
                 </div>
-                <div class="row mb-2">
-                    <div class="col-sm-4 text-muted">Address:</div>
-                    <div class="col-sm-8">@Model.Address</div>
+
+                <div class="mb-3 d-flex justify-content-between">
+                    <span class="text-muted fw-semibold" style="width: 120px;">Address:</span>
+                    <span>@Model.Address</span>
                 </div>
 
                 <!-- Action Buttons -->
-                 <div class="mt-4">
-                    <a href="@Url.Action("Edit", "Students", new { id = Model.Id })" class="btn btn-warning me-2">
-                        Edit
+                <div class="mt-5 d-flex gap-2">
+                    <a asp-controller="Student" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning px-4">
+                        <i class="bi bi-pencil-square me-1"></i> Edit
                     </a>
-                    <a href="@Url.Action("Index", "Students")" class="btn btn-secondary me-2">
-                        Back
+
+                    <a asp-controller="Student" asp-action="Index" class="btn btn-secondary px-4">
+                        <i class="bi bi-arrow-left-circle me-1"></i> Back
                     </a>
-                    <a href="@Url.Action("Delete", "Students", new { id = Model.Id })" class="btn btn-danger">
-                        Delete
-                    </a>
-                </div> 
+
+                    <form asp-controller="Student" asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger px-4">
+                            <i class="bi bi-trash3 me-1"></i> Delete
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

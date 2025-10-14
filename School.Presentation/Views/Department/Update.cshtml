@@ -1,16 +1,16 @@
-﻿@model CreateDepartmentVM
+﻿@model UpdateDepartmentVM
 
 @{
-    ViewData["Title"] = "Create Department";
+    ViewData["Title"] = "Edit Department";
 }
 
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-lg-7">
             <div class="card shadow-lg border-0 rounded-3">
-                <div class="card-header bg-success text-white py-3 d-flex justify-content-between align-items-center">
+                <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">
-                        <i class="bi bi-plus-circle me-2"></i> Create New Department
+                        <i class="bi bi-pencil-square me-2"></i> Edit Department
                     </h4>
                     <a asp-action="Index" class="btn btn-light btn-sm">
                         <i class="bi bi-arrow-left-circle"></i> Back to List
@@ -18,10 +18,10 @@
                 </div>
 
                 <div class="card-body px-5 py-4">
-                    <form asp-action="Create" method="post" class="needs-validation" novalidate>
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                    <form asp-action="Update" method="post" class="needs-validation" novalidate>
+                        <!-- Hidden ID Field -->
+                        <input type="hidden" asp-for="Id" />
 
-                        <!-- Department Name -->
                         <div class="mb-4">
                             <label asp-for="Name" class="form-label fw-semibold"></label>
                             <div class="input-group">
@@ -31,7 +31,6 @@
                             <span asp-validation-for="Name" class="text-danger small"></span>
                         </div>
 
-                        <!-- Manager -->
                         <div class="mb-4">
                             <label asp-for="Manager" class="form-label fw-semibold"></label>
                             <div class="input-group">
@@ -41,7 +40,6 @@
                             <span asp-validation-for="Manager" class="text-danger small"></span>
                         </div>
 
-                        <!-- Location -->
                         <div class="mb-4">
                             <label asp-for="Location" class="form-label fw-semibold"></label>
                             <div class="input-group">
@@ -51,10 +49,9 @@
                             <span asp-validation-for="Location" class="text-danger small"></span>
                         </div>
 
-                        <!-- Buttons -->
                         <div class="d-flex justify-content-end mt-4">
                             <button type="submit" class="btn btn-success px-4 me-2">
-                                <i class="bi bi-check-circle"></i> Create Department
+                                <i class="bi bi-check-circle"></i> Save Changes
                             </button>
                             <a asp-action="Index" class="btn btn-outline-secondary px-4">
                                 <i class="bi bi-x-circle"></i> Cancel
@@ -66,4 +63,5 @@
         </div>
     </div>
 </div>
+
 

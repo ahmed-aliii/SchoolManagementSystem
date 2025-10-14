@@ -1,17 +1,16 @@
-﻿@using School.Presentation.ViewModels.Student
-@model CreateStudentVM
+﻿@model UpdateInstructorVM
 
 @{
-    ViewData["Title"] = "Create Student";
+    ViewData["Title"] = "Update Instructor";
 }
 
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-lg-7">
             <div class="card shadow-lg border-0 rounded-3">
-                <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+                <div class="card-header bg-warning text-white py-3 d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">
-                        <i class="bi bi-person-plus me-2"></i> Create New Student
+                        <i class="bi bi-pencil-square me-2"></i> Update Instructor
                     </h4>
                     <a asp-action="Index" class="btn btn-light btn-sm">
                         <i class="bi bi-arrow-left-circle"></i> Back to List
@@ -19,11 +18,13 @@
                 </div>
 
                 <div class="card-body px-5 py-4">
-                    <form asp-action="Create" method="post" class="needs-validation" novalidate>
+                    <form asp-action="Update" method="post" class="needs-validation" novalidate>
+                        <input type="hidden" asp-for="Id" />
+
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger small" role="alert"></div>
 
-                        <!-- Student Name -->
-                        <div class="mb-3">
+                        <!-- Name -->
+                        <div class="mb-4">
                             <div class="input-group">
                                 <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
                                 <input asp-for="Name" class="form-control" placeholder="Full Name" />
@@ -31,26 +32,8 @@
                             <span asp-validation-for="Name" class="text-danger small"></span>
                         </div>
 
-                        <!-- Email -->
-                        <div class="mb-3">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
-                                <input asp-for="Email" class="form-control" placeholder="Email Address" />
-                            </div>
-                            <span asp-validation-for="Email" class="text-danger small"></span>
-                        </div>
-
-                        <!-- Age -->
-                        <div class="mb-3">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light"><i class="bi bi-calendar"></i></span>
-                                <input asp-for="Age" type="number" min="16" max="100" class="form-control" placeholder="Age (16–100)" />
-                            </div>
-                            <span asp-validation-for="Age" class="text-danger small"></span>
-                        </div>
-
                         <!-- Address -->
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <div class="input-group">
                                 <span class="input-group-text bg-light"><i class="bi bi-geo-alt"></i></span>
                                 <input asp-for="Address" class="form-control" placeholder="Address" />
@@ -58,8 +41,36 @@
                             <span asp-validation-for="Address" class="text-danger small"></span>
                         </div>
 
+                        <!-- Age -->
+                        <div class="mb-4">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-calendar"></i></span>
+                                <input asp-for="Age" type="number" min="18" max="100" class="form-control" placeholder="Age" />
+                            </div>
+                            <span asp-validation-for="Age" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Salary -->
+                        <div class="mb-4">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-cash-stack"></i></span>
+                                <input asp-for="Salary" type="number" step="0.01" class="form-control" placeholder="Salary" />
+                            </div>
+                            <span asp-validation-for="Salary" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Hire Date -->
+                        <div class="mb-4">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-calendar-check"></i></span>
+                                <input asp-for="HireDate" type="date" class="form-control" />
+                            </div>
+                            <span class="text-muted small">Select hire date (from 1950)</span>
+                            <span asp-validation-for="HireDate" class="text-danger small"></span>
+                        </div>
+
                         <!-- Image URL -->
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <div class="input-group">
                                 <span class="input-group-text bg-light"><i class="bi bi-image"></i></span>
                                 <input asp-for="ImageURL" class="form-control" placeholder="Image URL or file name (e.g., avatar.png)" />
@@ -68,7 +79,7 @@
                         </div>
 
                         <!-- Department -->
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <div class="input-group">
                                 <span class="input-group-text bg-light"><i class="bi bi-building"></i></span>
                                 <select asp-for="DepartmentId" asp-items="@(new SelectList(Model.Departments, "Id", "Name"))" class="form-select">
@@ -80,13 +91,14 @@
 
                         <!-- Buttons -->
                         <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-primary px-4 me-2">
-                                <i class="bi bi-check-circle"></i> Create
+                            <button type="submit" class="btn btn-warning px-4 me-2">
+                                <i class="bi bi-check-circle"></i> Update
                             </button>
                             <a asp-action="Index" class="btn btn-outline-secondary px-4">
                                 <i class="bi bi-x-circle"></i> Cancel
                             </a>
                         </div>
+
                     </form>
                 </div>
             </div>

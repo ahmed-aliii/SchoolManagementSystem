@@ -6,138 +6,137 @@
 }
 
 <div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Department Info -->
+            <div class="card shadow-lg border-0 rounded-3 mb-5">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
+                    <h4 class="mb-0">
+                        <i class="bi bi-info-circle me-2"></i> Department Details
+                    </h4>
+                    <div>
+                        <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning btn-sm me-2">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash3"></i> Delete
+                        </a>
+                    </div>
+                </div>
 
-    <!-- Department Info -->
-    <div class="card shadow-sm border-0 mb-4">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h3 class="mb-0">Department Details</h3>
-            <div>
-                <a href="/Department/Edit/@Model.Id" class="btn btn-sm btn-warning me-1">Edit</a>
-                <a href="/Department/Delete/@Model.Id" class="btn btn-sm btn-danger">Delete</a>
+                <div class="card-body px-5 py-4">
+                    <dl class="row mb-4 fs-6">
+                        <dt class="col-sm-3 fw-semibold text-secondary">Name</dt>
+                        <dd class="col-sm-9">@Model.Name</dd>
+
+                        <dt class="col-sm-3 fw-semibold text-secondary">Manager</dt>
+                        <dd class="col-sm-9">@Model.Manager</dd>
+
+                        <dt class="col-sm-3 fw-semibold text-secondary">Location</dt>
+                        <dd class="col-sm-9">@Model.Location</dd>
+
+                        <dt class="col-sm-3 fw-semibold text-secondary">Number of Students</dt>
+                        <dd class="col-sm-9"> @(Model.Students?.Count() ?? 0) </dd>
+
+                        <dt class="col-sm-3 fw-semibold text-secondary">Number of Instructors</dt>
+                        <dd class="col-sm-9">@(Model.Instructors?.Count() ?? 0)</dd>
+                    </dl>
+
+                    <div class="d-flex justify-content-end">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left-circle"></i> Back to List
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructors Section -->
+            <div class="card shadow-sm border-0 rounded-3 mb-5">
+                <div class="card-header bg-info text-white py-3 d-flex align-items-center">
+                    <i class="bi bi-person-badge me-2 fs-5"></i>
+                    <h5 class="mb-0">Instructors</h5>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Salary</th>
+                                <th>Hire Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Instructors == null || !Model.Instructors.Any())
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-3">No instructors available.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                var i = 1;
+                                foreach (var instructor in Model.Instructors)
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@instructor.Name</td>
+                                        <td>@instructor.Age</td>
+                                        <td>@instructor.Salary.ToString("C")</td>
+                                        <td>@instructor.HireDate.ToShortDateString()</td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Students Section -->
+            <div class="card shadow-sm border-0 rounded-3 mb-5">
+                <div class="card-header bg-success text-white py-3 d-flex align-items-center">
+                    <i class="bi bi-mortarboard me-2 fs-5"></i>
+                    <h5 class="mb-0">Students</h5>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Age</th>
+                                <th>Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Students == null || !Model.Students.Any())
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-3">No students available.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                var j = 1;
+                                foreach (var student in Model.Students)
+                                {
+                                    <tr>
+                                        <td>@j</td>
+                                        <td>@student.Name</td>
+                                        <td>@student.Email</td>
+                                        <td>@student.Age</td>
+                                        <td>@student.Address</td>
+                                    </tr>
+                                    j++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <div class="card-body">
-            <dl class="row mb-4">
-                <dt class="col-sm-3">Name</dt>
-                <dd class="col-sm-9">@Model.Name</dd>
-
-                <dt class="col-sm-3">Manager</dt>
-                <dd class="col-sm-9">@Model.Manager</dd>
-
-                <dt class="col-sm-3">Location</dt>
-                <dd class="col-sm-9">@Model.Location</dd>
-
-                <dt class="col-sm-3">Number of Students</dt>
-                <dd class="col-sm-9">@Model.Students.Count</dd>
-
-                <dt class="col-sm-3">Number of Instructors</dt>
-                <dd class="col-sm-9">@Model.Instructors.Count</dd>
-            </dl>
-
-            <a href="/Department/Index" class="btn btn-secondary">Back to List</a>
-        </div>
     </div>
-
-    <!-- Instructors Table -->
-    <div class="card shadow-sm border-0 mb-4">
-        <div class="card-header bg-info text-white">
-            <h4 class="mb-0">Instructors</h4>
-        </div>
-        <div class="card-body table-responsive">
-            <table class="table table-hover align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>Salary</th>
-                        <th>Hire Date</th>
-                        <th>Courses</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!Model.Instructors.Any())
-                    {
-                        <tr>
-                            <td colspan="6" class="text-center">No instructors available.</td>
-                        </tr>
-                    }
-                    else
-                    {
-                        int i = 1;
-                        foreach (var instructor in Model.Instructors)
-                        {
-                            <tr>
-                                <td>@i</td>
-                                <td>@instructor.Name</td>
-                                <td>@instructor.Age</td>
-                                <td>@instructor.Salary.ToString("C")</td>
-                                <td>@instructor.HireDate.ToShortDateString()</td>
-                                <td>
-                                    @if (instructor.InstructorCourses.Any())
-                                    {
-                                        <ul class="mb-0">
-                                            @foreach (var ic in instructor.InstructorCourses)
-                                            {
-                                                <li>@ic.Course.Name</li>
-                                            }
-                                        </ul>
-                                    }
-                                    else
-                                    {
-                                        <span class="text-muted">No courses</span>
-                                    }
-                                </td>
-                            </tr>
-                            i++;
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Students Table -->
-    <div class="card shadow-sm border-0 mb-4">
-        <div class="card-header bg-success text-white">
-            <h4 class="mb-0">Students</h4>
-        </div>
-        <div class="card-body table-responsive">
-            <table class="table table-hover align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Age</th>
-                        <th>Address</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!Model.Students.Any())
-                    {
-                        <tr>
-                            <td colspan="5" class="text-center">No students available.</td>
-                        </tr>
-                    }
-                    else
-                    {
-                        int j = 1;
-                        foreach (var student in Model.Students)
-                        {
-                            <tr>
-                                <td>@j</td>
-                                <td>@student.Name</td>
-                                <td>@student.Email</td>
-                                <td>@student.Age</td>
-                                <td>@student.Address</td>
-                            </tr>
-                            j++;
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-
 </div>

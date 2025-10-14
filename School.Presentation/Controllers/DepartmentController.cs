@@ -26,7 +26,6 @@ namespace School.Presentation.Controllers
         }
         #endregion
 
-
         #region Create
         //Student/Create
         [HttpGet]
@@ -62,6 +61,67 @@ namespace School.Presentation.Controllers
 
             return RedirectToAction("Index");
         }
+        #endregion
+
+        #region Update
+       
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var department = await _departmentService.GetByIdAsync(id);
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            // Map entity => VM
+            var vm = new UpdateDepartmentVM
+            {
+                Name = department.Name,
+                Manager = department.Manager,
+                Location = department.Location
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(UpdateDepartmentVM model)
+        {
+            var existingDepartment = await _departmentService.GetByIdAsync(model.Id);
+            if (existingDepartment == null)
+            {
+                return NotFound();
+            }
+
+            // Update fields
+            existingDepartment.Name = model.Name;
+            existingDepartment.Manager = model.Manager;
+            existingDepartment.Location = model.Location;
+
+            // Call service to update
+            await _departmentService.UpdateAsync(existingDepartment);
+
+            // Redirect back to the list
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Delete
+        //  Department/Delete/5
+        [HttpGet]
+        public async Task<IActionResult> Delete([FromRoute]int id)
+        {
+            var department = await _departmentService.GetByIdAsync(id);
+
+            if (department == null)
+                return NotFound();
+
+            await _departmentService.DeleteAsync(id);
+
+            return RedirectToAction("Index");
+        }
+
         #endregion
     }
 }

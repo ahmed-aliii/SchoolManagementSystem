@@ -80,8 +80,73 @@ namespace School.Presentation.Controllers
             await _studentService.AddAsync(student);
 
             return RedirectToAction("Index");
-        } 
+        }
         #endregion
+
+        #region Update
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var student = await _studentService.GetByIdAsync(id);
+            if (student == null)
+                return NotFound();
+
+            var departments = await _departmentService.GetAllAsync();
+
+            var viewModel = new UpdateStudentVM
+            {
+                Id = student.Id,
+                Name = student.Name,
+                Email = student.Email,
+                Age = student.Age,
+                Address = student.Address,
+                ImageURL = student.ImageURL,
+                DepartmentId = student.DepartmentId,
+                Departments = departments.ToList()
+            };
+
+            return View(viewModel);
+        }
+
+       
+        [HttpPost]
+        public async Task<IActionResult> Update(UpdateStudentVM model)
+        {
+            var student = await _studentService.GetByIdAsync(model.Id);
+            if (student == null)
+                return NotFound();
+
+            // Update entity
+            student.Name = model.Name;
+            student.Email = model.Email;
+            student.Age = model.Age;
+            student.Address = model.Address;
+            student.ImageURL = model.ImageURL;
+            student.DepartmentId = model.DepartmentId;
+
+            await _studentService.UpdateAsync(student);
+
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Delete
+        //  Student/Delete/5
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var student = await _studentService.GetByIdAsync(id);
+
+            if (student == null)
+                return NotFound();
+
+            await _studentService.DeleteAsync(id);
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
 
     }
 }

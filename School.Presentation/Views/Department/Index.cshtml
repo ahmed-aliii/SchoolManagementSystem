@@ -8,7 +8,11 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Departments</h2>
-        <a href="/Department/Create" class="btn btn-primary">Create New Department</a>
+
+        <!-- Create Button -->
+        <a asp-controller="Department" asp-action="Create" class="btn btn-primary">
+            Create New Department
+        </a>
     </div>
 
     <div class="card shadow-sm border-0">
@@ -25,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (!Model.Any())
+                        @if (Model == null || !Model.Any())
                         {
                             <tr>
                                 <td colspan="5" class="text-center">No departments available.</td>
@@ -42,9 +46,29 @@
                                     <td>@dept.Manager</td>
                                     <td>@dept.Location</td>
                                     <td class="text-end">
-                                        <a href="/Department/Details/@dept.Id" class="btn btn-sm btn-info me-1">Details</a>
-                                        <a href="/Department/Edit/@dept.Id" class="btn btn-sm btn-warning me-1">Edit</a>
-                                        <a href="/Department/Delete/@dept.Id" class="btn btn-sm btn-danger">Delete</a>
+                                        <!-- Details Button -->
+                                        <a asp-controller="Department"
+                                           asp-action="Details"
+                                           asp-route-id="@dept.Id"
+                                           class="btn btn-sm btn-info me-1">
+                                            Details
+                                        </a>
+
+                                        <!-- Edit Button -->
+                                        <a asp-controller="Department"
+                                           asp-action="Update"
+                                           asp-route-id="@dept.Id"
+                                           class="btn btn-sm btn-warning me-1">
+                                            Edit
+                                        </a>
+
+                                        <!-- Delete Button -->
+                                        <a asp-controller="Department"
+                                           asp-action="Delete"
+                                           asp-route-id="@dept.Id"
+                                           class="btn btn-sm btn-danger">
+                                            Delete
+                                        </a>
                                     </td>
                                 </tr>
                                 count++;
