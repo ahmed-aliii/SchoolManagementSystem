@@ -1,50 +1,198 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout = null;
+    var title = ViewData["Title"] ?? "Dashboard";
+}
+
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - School.Presentation</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>@title - School.Presentation</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/vendor/fontawesome-free/css/all.min.css" asp-append-version="true" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/vendor/bootstrap/css/bootstrap.min.css" asp-append-version="true" />
+
+    <!-- SB Admin 2 -->
+    <link rel="stylesheet" href="~/css/sb-admin-2.min.css" asp-append-version="true" />
+
+    <!-- Site Custom Styles -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/School.Presentation.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">School.Presentation</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Home" asp-action="Index">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">School Dashboard</div>
+            </a>
+
+            <hr class="sidebar-divider my-0" />
+
+            <!-- Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider" />
+
+            <!-- Main Menu -->
+            <div class="sidebar-heading">Main Menu</div>
+
+            <!-- Students -->
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Student" asp-action="Index">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Students</span>
+                </a>
+            </li>
+
+            <!-- Departments -->
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Department" asp-action="Index">
+                    <i class="fas fa-building"></i>
+                    <span>Departments</span>
+                </a>
+            </li>
+
+            <!-- Courses -->
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Course" asp-action="Index">
+                    <i class="fas fa-book-open"></i>
+                    <span>Courses</span>
+                </a>
+            </li>
+
+            <!-- Instructors -->
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Instructor" asp-action="Index">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Instructors</span>
+                </a>
+            </li>
+
+            <!-- Privacy -->
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="Privacy">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Privacy Policy</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider d-none d-md-block" />
+
+            <!-- Sidebar Toggler -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+        </ul>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-controller="Student" asp-action="Index">Students</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Department" asp-action="Index">Departments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Course" asp-action="Index">Courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Instructor" asp-action="Index">Instructors</a>
                         </li>
                     </ul>
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>&copy; @DateTime.Now.Year - School.Presentation</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                        <button class="btn btn-primary" type="submit">Logout</button>
+                    </form>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - School.Presentation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts -->
+    <script src="~/vendor/jquery/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js" asp-append-version="true"></script>
+
+    <!-- SB Admin Scripts -->
+    <script src="~/js/sb-admin-2.min.js" asp-append-version="true"></script>
+
+    <!-- Optional Chart.js -->
+    <script src="~/vendor/chart.js/Chart.min.js" asp-append-version="true"></script>
+
+    <!-- Site Scripts -->
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+    @RenderSection("Scripts", required: false)
 </body>
+
 </html>

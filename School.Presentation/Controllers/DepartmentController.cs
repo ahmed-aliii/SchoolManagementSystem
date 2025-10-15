@@ -29,7 +29,7 @@ namespace School.Presentation.Controllers
         #region Create
         //Student/Create
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public  IActionResult Create()
         {
             var vm = new CreateDepartmentVM();
             return View(vm);

@@ -26,7 +26,7 @@ namespace School.DAL
             return await _context.Students
                 .Include(s => s.Department)
                 .Include(s => s.StudentCourses)
-                .ThenInclude(sc => sc.Course)
+                    .ThenInclude(sc => sc.Course)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 

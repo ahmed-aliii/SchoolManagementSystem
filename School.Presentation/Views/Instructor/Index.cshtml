@@ -5,11 +5,11 @@
 }
 
 <div class="container mt-5">
-    <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center rounded-top-4">
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
             <h3 class="mb-0 fw-bold">Instructors</h3>
-            <a asp-action="Create" asp-controller="Instructor" class="btn btn-light fw-semibold">
-                <i class="bi bi-plus-circle me-1"></i> Add New Instructor
+            <a asp-action="Create" asp-controller="Instructor" class="btn btn-light fw-semibold shadow-sm">
+                Add New Instructor
             </a>
         </div>
 
@@ -18,8 +18,8 @@
             {
                 <div class="table-responsive">
                     <table class="table align-middle table-hover text-center">
-                        <thead class="table-light">
-                            <tr>
+                        <thead class="table-primary">
+                            <tr class="text-uppercase fw-semibold small">
                                 <th>Image</th>
                                 <th>Name</th>
                                 <th>Address</th>
@@ -37,27 +37,27 @@
                                     <td>
                                         <img src="~/images/@instructor.ImageURL"
                                              alt="@instructor.Name"
-                                             class="rounded-circle"
+                                             class="rounded-circle border"
                                              style="width:70px; height:70px; object-fit:cover;">
                                     </td>
-                                    <td class="fw-semibold">@instructor.Name</td>
+                                    <td class="fw-semibold text-dark">@instructor.Name</td>
                                     <td>@instructor.Address</td>
                                     <td>@instructor.Age</td>
                                     <td>@instructor.Salary.ToString("C")</td>
                                     <td>@instructor.HireDate.ToString("yyyy-MM-dd")</td>
                                     <td>@instructor.Department?.Name</td>
                                     <td>
-                                        <div class="d-flex justify-content-center gap-2">
+                                        <div class="btn-group" role="group">
                                             <a asp-action="Details" asp-controller="Instructor" asp-route-id="@instructor.Id"
-                                               class="btn btn-info btn-sm text-white">
+                                               class="btn btn-outline-info btn-sm rounded-pill px-3 shadow-sm">
                                                 Details
                                             </a>
                                             <a asp-action="Update" asp-controller="Instructor" asp-route-id="@instructor.Id"
-                                               class="btn btn-warning btn-sm text-white">
-                                                Update
+                                               class="btn btn-outline-warning btn-sm rounded-pill px-3 shadow-sm text-dark">
+                                                Edit
                                             </a>
                                             <a asp-action="Delete" asp-controller="Instructor" asp-route-id="@instructor.Id"
-                                               class="btn btn-danger btn-sm">
+                                               class="btn btn-outline-danger btn-sm rounded-pill px-3 shadow-sm">
                                                 Delete
                                             </a>
                                         </div>

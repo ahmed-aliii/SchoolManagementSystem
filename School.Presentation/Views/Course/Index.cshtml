@@ -1,0 +1,74 @@
+﻿@model List<Course>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
+            <h3 class="mb-0 fw-bold">Courses</h3>
+            <a asp-action="Create" class="btn btn-light fw-semibold shadow-sm">
+                Add New Course
+            </a>
+        </div>
+
+        <div class="card-body p-4">
+            @if (Model == null || !Model.Any())
+            {
+                <div class="alert alert-warning text-center rounded-3 shadow-sm mb-0">
+                    No courses found.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table align-middle table-hover text-center">
+                        <thead class="table-primary">
+                            <tr class="text-uppercase fw-semibold small">
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Topic</th>
+                                <th>Degree</th>
+                                <th>Min Degree</th>
+                                <th>Students Count</th>
+                                <th>Instructors Count</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var course in Model)
+                            {
+                                <tr>
+                                    <td>@course.Id</td>
+                                    <td class="fw-semibold text-dark">@course.Name</td>
+                                    <td>@course.Topic</td>
+                                    <td>@course.Degree</td>
+                                    <td>@course.MinDegree</td>
+                                    <td>@course.StudentCourses?.Count()</td>
+                                    <td>@course.InstructorCourses?.Count()</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a asp-action="Details" asp-route-id="@course.Id"
+                                               class="btn btn-outline-info btn-sm rounded-pill px-3 shadow-sm">
+                                                Details
+                                            </a>
+                                            <a asp-action="Update" asp-route-id="@course.Id"
+                                               class="btn btn-outline-warning btn-sm rounded-pill px-3 shadow-sm text-dark">
+                                                Edit
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@course.Id"
+                                               class="btn btn-outline-danger btn-sm rounded-pill px-3 shadow-sm">
+                                                Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

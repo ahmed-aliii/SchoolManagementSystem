@@ -1,5 +1,9 @@
 ﻿@model Student
 
+@{
+    ViewData["Title"] = "Student Details";
+}
+
 <div class="container my-5">
     <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
         <div class="row g-0 align-items-center">
@@ -27,6 +31,11 @@
                     <span>@Model.Address</span>
                 </div>
 
+                <div class="mb-3 d-flex justify-content-between">
+                    <span class="text-muted fw-semibold" style="width: 120px;">Department:</span>
+                    <span>@Model.Department?.Name</span>
+                </div>
+
                 <!-- Action Buttons -->
                 <div class="mt-5 d-flex gap-2">
                     <a asp-controller="Student" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning px-4">
@@ -38,12 +47,59 @@
                     </a>
 
                     <form asp-controller="Student" asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-danger px-4">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger px-4"
+                                onclick="return confirm('Are you sure you want to delete this student?');">
                             <i class="bi bi-trash3 me-1"></i> Delete
                         </button>
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Student Courses Section -->
+    <div class="card mt-4 shadow-sm border-0 rounded-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="bi bi-journal-text"></i> Enrolled Courses</h5>
+        </div>
+
+        <div class="card-body">
+            @if (Model.StudentCourses != null && Model.StudentCourses.Any())
+            {
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Course Name</th>
+                            <th>Topic</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sc in Model.StudentCourses)
+                        {
+                            var course = sc.Course;
+                            var grade = sc.Grade;
+
+                            var gradeColor = grade >= 60 ? "text-success fw-semibold" : "text-danger fw-semibold";
+
+                            <tr>
+                                <td>@course.Id</td>
+                                <td>@course.Name</td>
+                                <td>@course.Topic</td>
+                                <td class="@gradeColor">@grade</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-info mb-0">
+                    This student is not enrolled in any courses yet.
+                </div>
+            }
         </div>
     </div>
 </div>

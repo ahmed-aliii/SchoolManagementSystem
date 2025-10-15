@@ -1,0 +1,131 @@
+﻿@model Course
+
+@{
+    ViewData["Title"] = "Course Details";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm border-0 rounded-3">
+
+        <!-- ===== Header Section ===== -->
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+                <i class="bi bi-book"></i> Course Details
+            </h4>
+
+            <div>
+                <a asp-action="Index" class="btn btn-light btn-sm me-2" data-bs-toggle="tooltip" title="Back to List">
+                    Back To List
+                </a>
+
+                <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning btn-sm me-2" data-bs-toggle="tooltip" title="Edit Course">
+                    Edit
+                </a>
+
+                <a asp-action="Delete" asp-route-id="@Model.Id"
+                   class="btn btn-danger btn-sm"
+                   data-bs-toggle="tooltip"
+                   title="Delete Course">
+                    Delete
+                </a>
+            </div>
+        </div>
+
+        <!-- ===== Body Section ===== -->
+        <div class="card-body">
+            <dl class="row mb-4">
+                <dt class="col-sm-3">Course Name:</dt>
+                <dd class="col-sm-9">@Model.Name</dd>
+
+                <dt class="col-sm-3">Topic:</dt>
+                <dd class="col-sm-9">@Model.Topic</dd>
+
+                <dt class="col-sm-3">Degree:</dt>
+                <dd class="col-sm-9">@Model.Degree</dd>
+
+                <dt class="col-sm-3">Minimum Degree:</dt>
+                <dd class="col-sm-9">@Model.MinDegree</dd>
+            </dl>
+
+            <hr />
+
+            <!-- Instructors Section -->
+            <h5 class="text-primary mb-3"><i class="bi bi-person-badge"></i> Instructors</h5>
+            @if (Model.InstructorCourses != null && Model.InstructorCourses.Any())
+            {
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Salary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ic in Model.InstructorCourses)
+                        {
+                            var instructor = ic.Instructor;
+                            <tr>
+                                <td>@instructor.Id</td>
+                                <td>@instructor.Name</td>
+                                <td>@instructor.Age</td>
+                                <td>@instructor.Salary.ToString("C")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    No instructors assigned to this course yet.
+                </div>
+            }
+
+            <hr />
+
+            <!-- Students Section -->
+            <h5 class="text-success mb-3"><i class="bi bi-people"></i> Enrolled Students</h5>
+            @if (Model.StudentCourses != null && Model.StudentCourses.Any())
+            {
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Degree</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sc in Model.StudentCourses)
+                        {
+                            var student = sc.Student;
+                            <tr>
+                                <td>@student.Id</td>
+                                <td>@student.Name</td>
+                                <td>@sc.Grade</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    No students enrolled in this course yet.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Enable Bootstrap tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+    </script>
+}

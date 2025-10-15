@@ -1,82 +1,75 @@
-﻿@using School.Domain
-@model List<Department>
+﻿@model List<Department>
 
 @{
     ViewData["Title"] = "Departments";
 }
 
 <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Departments</h2>
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
+            <h3 class="mb-0 fw-bold">
+                Departments
+            </h3>
+            <a asp-action="Create" asp-controller="Department" class="btn btn-light fw-semibold shadow-sm">
+                <i class="bi bi-plus-circle me-1"></i> Add New Department
+            </a>
+        </div>
 
-        <!-- Create Button -->
-        <a asp-controller="Department" asp-action="Create" class="btn btn-primary">
-            Create New Department
-        </a>
-    </div>
-
-    <div class="card shadow-sm border-0">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Manager</th>
-                            <th>Location</th>
-                            <th class="text-end">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model == null || !Model.Any())
-                        {
-                            <tr>
-                                <td colspan="5" class="text-center">No departments available.</td>
+        <div class="card-body p-4">
+            @if (Model != null && Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle text-center">
+                        <thead class="table-primary">
+                            <tr class="text-uppercase fw-semibold small">
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Manager</th>
+                                <th>Location</th>
+                                <th>Actions</th>
                             </tr>
-                        }
-                        else
-                        {
-                            int count = 1;
-                            foreach (var dept in Model)
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                            }
+                            @foreach (var dept in Model)
                             {
                                 <tr>
                                     <td>@count</td>
-                                    <td>@dept.Name</td>
+                                    <td class="fw-semibold text-dark">@dept.Name</td>
                                     <td>@dept.Manager</td>
                                     <td>@dept.Location</td>
-                                    <td class="text-end">
-                                        <!-- Details Button -->
-                                        <a asp-controller="Department"
-                                           asp-action="Details"
-                                           asp-route-id="@dept.Id"
-                                           class="btn btn-sm btn-info me-1">
-                                            Details
-                                        </a>
-
-                                        <!-- Edit Button -->
-                                        <a asp-controller="Department"
-                                           asp-action="Update"
-                                           asp-route-id="@dept.Id"
-                                           class="btn btn-sm btn-warning me-1">
-                                            Edit
-                                        </a>
-
-                                        <!-- Delete Button -->
-                                        <a asp-controller="Department"
-                                           asp-action="Delete"
-                                           asp-route-id="@dept.Id"
-                                           class="btn btn-sm btn-danger">
-                                            Delete
-                                        </a>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a asp-action="Details" asp-controller="Department" asp-route-id="@dept.Id"
+                                               class="btn btn-outline-info btn-sm rounded-pill px-3 shadow-sm">
+                                                Details
+                                            </a>
+                                            <a asp-action="Update" asp-controller="Department" asp-route-id="@dept.Id"
+                                               class="btn btn-outline-warning btn-sm rounded-pill px-3 shadow-sm text-dark">
+                                                Edit
+                                            </a>
+                                            <a asp-action="Delete" asp-controller="Department" asp-route-id="@dept.Id"
+                                               class="btn btn-outline-danger btn-sm rounded-pill px-3 shadow-sm">
+                                                Delete
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                                 count++;
                             }
-                        }
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning text-center rounded-3 shadow-sm mb-0">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    No departments found.
+                </div>
+            }
         </div>
     </div>
 </div>
