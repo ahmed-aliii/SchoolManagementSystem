@@ -112,6 +112,18 @@ namespace School.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(UpdateStudentVM model)
         {
+            //refill
+            var departments = await _departmentService.GetAllAsync();
+            model.Departments = departments.ToList();
+
+
+            //Not Valid 
+            if (!ModelState.IsValid)
+            {
+                return View("Update", model);
+            }
+
+
             var student = await _studentService.GetByIdAsync(model.Id);
             if (student == null)
                 return NotFound();

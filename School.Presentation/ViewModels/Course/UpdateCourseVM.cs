@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace School.Presentation
 {
@@ -7,9 +8,9 @@ namespace School.Presentation
         [Required(ErrorMessage = "Id is required.")]
         public int Id { get; set; }
 
+        [Remote(action: "IsCourseNameUnique", controller: "Course", AdditionalFields = "Id", ErrorMessage = "A course with this name already exists.")]
         [Required(ErrorMessage = "Course name is required.")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Course name must be between 3 and 100 characters.")]
-        [UniqueCourseName] 
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Topic is required.")]

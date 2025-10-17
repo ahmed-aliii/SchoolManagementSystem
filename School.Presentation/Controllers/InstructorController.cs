@@ -10,7 +10,6 @@ namespace School.Presentation.Controllers
         private readonly IInstructorService _instructorService = new InstructorService();
         private readonly IDepartmentService _departmentService = new DepartmentService();
 
-
         #region Read
         public async Task<IActionResult> Index()
         {
@@ -47,12 +46,13 @@ namespace School.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateInstructorVM vm)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    // Reload departments to repopulate dropdown
-            //    vm.Departments = await _departmentService.GetAllDepartmentsAsync();
-            //    return View(vm);
-            //}
+            if (!ModelState.IsValid)
+            {
+                // Reload departments to repopulate dropdown
+                var departments = await _departmentService.GetAllAsync();
+                vm.Departments = departments.ToList();
+                return View(vm);
+            }
 
             var instructor = new Instructor
             {
@@ -102,11 +102,12 @@ namespace School.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(UpdateInstructorVM vm)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    vm.Departments = await _departmentService.GetAllAsync(); // repopulate dropdown
-            //    return View(vm);
-            //}
+            if (!ModelState.IsValid)
+            {
+                var departments = await _departmentService.GetAllAsync();
+                vm.Departments = departments.ToList() ;
+                return View(vm);
+            }
 
             var instructor = await _instructorService.GetByIdAsync(vm.Id);
             if (instructor == null)

@@ -101,10 +101,11 @@
                         @foreach (var sc in Model.StudentCourses)
                         {
                             var student = sc.Student;
+                            var gradeColor = sc.Grade > 60 ? "text-success fw-bold" : "text-danger fw-bold";
                             <tr>
                                 <td>@student.Id</td>
                                 <td>@student.Name</td>
-                                <td>@sc.Grade</td>
+                                <td class="@gradeColor">@sc.Grade</td>
                             </tr>
                         }
                     </tbody>

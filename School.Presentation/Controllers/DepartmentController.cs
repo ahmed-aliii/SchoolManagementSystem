@@ -88,6 +88,13 @@ namespace School.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(UpdateDepartmentVM model)
         {
+
+            //Not Valid 
+            if (!ModelState.IsValid)
+            {
+                return View("Create", model);
+            }
+
             var existingDepartment = await _departmentService.GetByIdAsync(model.Id);
             if (existingDepartment == null)
             {

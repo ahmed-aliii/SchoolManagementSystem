@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using School.BLL;
 using School.Domain;
 
@@ -33,7 +34,6 @@ namespace School.Presentation.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateCourseVM model)
         {
             if (!ModelState.IsValid)
@@ -76,7 +76,6 @@ namespace School.Presentation.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(UpdateCourseVM model)
         {
             if (!ModelState.IsValid)
@@ -118,5 +117,23 @@ namespace School.Presentation.Controllers
         }
 
         #endregion
+
+        #region Remote Attributes
+        public async Task<IActionResult> IsCourseNameUnique(string Name, int Id)
+        {
+            if (string.IsNullOrWhiteSpace(Name))
+                return Json(true); // skip if no name entered yet
+
+            var existingCourse =  _courseService.GetByNameAsync(Name);
+
+            if (existingCourse != null && existingCourse.Id != Id)
+            {
+                return Json($"A course with the name '{Name}' already exists.");
+            }
+
+            return Json(true);
+        }
+        #endregion
+
     }
 }

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace School.Domain
 {
-    public class Department
+    public class Department : DepartmentBase
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Manager { get; set; }
-        public string Location { get; set; }
+        //public string Name { get; set; }
+        //public string Manager { get; set; }
+        //public string Location { get; set; }
 
         #region Department 1----M Student
         public virtual ICollection<Student> Students { get; set; } = new List<Student>();
