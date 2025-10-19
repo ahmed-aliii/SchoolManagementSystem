@@ -8,9 +8,19 @@ namespace School.Presentation.Controllers
     public class DepartmentController : Controller
     {
         private readonly IDepartmentService _departmentService = new DepartmentService();
-      
+        private readonly ILogger<DepartmentController> _logger;
+
+        public DepartmentController(ILogger<DepartmentController> logger)
+        {
+            _logger = logger;
+        }
+
         #region Read 
-        
+
+        [ServiceFilter(typeof(LocationRestrictionFilter))]
+        [ServiceFilter(typeof(LogResultFilter))]
+        [ServiceFilter(typeof(CacheResourceFilter))]
+        [CustomExceptionFilter]
         public async Task<IActionResult> Index()
         {
             var departments = await _departmentService.GetAllAsync();
@@ -18,6 +28,10 @@ namespace School.Presentation.Controllers
             return View(departments.ToList());
         }
 
+        
+        [CustomAuthorizationFilter]
+        [ServiceFilter(typeof(CacheResourceFilter))]
+        [CustomExceptionFilter]
         public async Task<IActionResult> Details(int id)
         {
             var department = await _departmentService.GetByIdAsync(id);

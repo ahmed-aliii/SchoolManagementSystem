@@ -26,6 +26,16 @@ namespace School.Presentation
             // Tell ASP.NET Core to use Serilog instead of default logger
             builder.Host.UseSerilog();
 
+
+            builder.Services.AddScoped<LocationRestrictionFilter>();
+            builder.Services.AddScoped<LogResultFilter>();
+
+            builder.Services.AddScoped<CustomExceptionFilter>();
+
+            builder.Services.AddMemoryCache();
+            builder.Services.AddScoped<CacheResourceFilter>();
+
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
