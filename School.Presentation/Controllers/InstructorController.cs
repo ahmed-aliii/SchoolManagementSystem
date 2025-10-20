@@ -8,7 +8,13 @@ namespace School.Presentation.Controllers
     public class InstructorController : Controller
     {
         private readonly IInstructorService _instructorService = new InstructorService();
-        private readonly IDepartmentService _departmentService = new DepartmentService();
+        private readonly IGenericService<Department> _departmentService;
+
+        public InstructorController(IGenericService<Department> departmentService)
+        {
+            _departmentService = departmentService;
+        }
+
 
         #region Read
         public async Task<IActionResult> Index()

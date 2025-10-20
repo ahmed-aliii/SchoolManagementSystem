@@ -7,12 +7,13 @@ namespace School.Presentation.Controllers
 {
     public class DepartmentController : Controller
     {
-        private readonly IDepartmentService _departmentService = new DepartmentService();
+        private readonly IGenericService<Department> _departmentService;
         private readonly ILogger<DepartmentController> _logger;
 
-        public DepartmentController(ILogger<DepartmentController> logger)
+        public DepartmentController(ILogger<DepartmentController> logger , IGenericService<Department> departmentService)
         {
             _logger = logger;
+            _departmentService = departmentService;
         }
 
         #region Read 
@@ -29,7 +30,7 @@ namespace School.Presentation.Controllers
         }
 
         
-        [CustomAuthorizationFilter]
+       // [CustomAuthorizationFilter]
         [ServiceFilter(typeof(CacheResourceFilter))]
         [CustomExceptionFilter]
         public async Task<IActionResult> Details(int id)
@@ -71,7 +72,7 @@ namespace School.Presentation.Controllers
             };
 
             //Add
-            await _departmentService.AddAsync(department);
+            await _departmentService.CreateAsync(department);
 
             return RedirectToAction("Index");
         }
@@ -82,7 +83,7 @@ namespace School.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
-            var department = await _departmentService.GetByIdAsync(id);
+            var department = await _departmentService.GetByIdWithIncludeAsync(id , d => d.Instructors , d => d.Students);
             if (department == null)
             {
                 return NotFound();

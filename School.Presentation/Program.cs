@@ -1,4 +1,7 @@
-﻿using Serilog;
+﻿using Microsoft.EntityFrameworkCore;
+using School.BLL;
+using School.DAL;
+using Serilog;
 
 namespace School.Presentation
 {
@@ -35,6 +38,12 @@ namespace School.Presentation
             builder.Services.AddMemoryCache();
             builder.Services.AddScoped<CacheResourceFilter>();
 
+
+            builder.Services.AddDbContext<SchoolDB>(options =>
+                        options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolDB")));
+
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

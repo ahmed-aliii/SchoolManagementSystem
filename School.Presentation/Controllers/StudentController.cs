@@ -9,7 +9,12 @@ namespace School.Presentation.Controllers
     {
 
         private readonly IStudentService _studentService = new StudentService();
-        private readonly IDepartmentService _departmentService = new DepartmentService();
+        private readonly IGenericService<Department> _departmentService;
+
+        public StudentController(IGenericService<Department> departmentService)
+        {
+            _departmentService = departmentService;
+        }
 
 
         #region Read

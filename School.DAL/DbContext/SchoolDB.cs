@@ -14,6 +14,12 @@ namespace School.DAL
         {
         }
 
+        public SchoolDB(DbContextOptions options) : base(options)
+        {
+        }
+
+
+
 
 
         //DbSets
@@ -27,10 +33,10 @@ namespace School.DAL
 
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=SchoolDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=SchoolDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+        //}
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
