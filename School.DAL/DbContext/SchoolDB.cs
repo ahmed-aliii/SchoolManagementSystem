@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using School.Domain;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace School.DAL
 {
-    public class SchoolDB : DbContext
+    public class SchoolDB : IdentityDbContext<ApplicationUser>
     {
         public SchoolDB()
         {

@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using School.BLL;
 using School.DAL;
+using School.Domain;
 using Serilog;
 
 namespace School.Presentation
@@ -44,6 +46,89 @@ namespace School.Presentation
 
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
+
+
+            #region Session Regiteration
+            // Add services for Session
+            builder.Services.AddDistributedMemoryCache(); // Required for session storage
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
+                options.Cookie.HttpOnly = true;   // Prevent JS access
+            });
+            #endregion
+
+            #region Identity Services
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                // -------------------
+                // Password settings
+                // -------------------
+                options.Password.RequireDigit = false;                // Must contain a number
+                options.Password.RequireLowercase = false;            // Must contain a lowercase letter
+                options.Password.RequireUppercase = false;            // Must contain an uppercase letter
+                options.Password.RequireNonAlphanumeric = false;     // Must contain a special character
+                options.Password.RequiredLength = 4;                // Minimum length
+                options.Password.RequiredUniqueChars = 0;           // Minimum unique characters
+
+
+                // -------------------
+                // User settings
+                // -------------------
+                options.User.RequireUniqueEmail = true;           // Email must be unique
+                options.User.AllowedUserNameCharacters =
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+"; // Allowed username chars
+
+
+                // -------------------
+                // Lockout settings
+                // -------------------
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Lockout duration
+                options.Lockout.MaxFailedAccessAttempts = 5;                       // Max failed attempts
+                options.Lockout.AllowedForNewUsers = true;                         // Lockout enabled for new users
+
+
+                // -------------------
+                // SignIn settings
+                // -------------------
+                options.SignIn.RequireConfirmedEmail = false;     // Require email confirmation
+                options.SignIn.RequireConfirmedPhoneNumber = false; // Require phone confirmation
+            })
+            .AddEntityFrameworkStores<SchoolDB>();
+            #endregion
+
+            #region Cookie Service
+            builder.Services.AddAuthentication("Cookies")
+                .AddCookie("Cookies", options =>
+                {
+                    // 🔹 Paths
+                    options.LoginPath = "/Account/LogIn";   // Redirect here if not logged in
+                    options.LogoutPath = "/Account/LogOut";     // Redirect here after logout
+                    options.AccessDeniedPath = "/Account/AccessDenied"; // For [Authorize] failed
+
+                    // 🔹 Cookie Settings
+                    options.Cookie.Name = "Quizera";          // Cookie name
+                    options.Cookie.HttpOnly = true;             // Can't be accessed by JS
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Only HTTPS
+                    options.Cookie.SameSite = SameSiteMode.Strict; // Strict CSRF protection
+
+                    // 🔹 Expiration
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // Cookie lifetime
+                    options.SlidingExpiration = true;  // Refresh expiration on activity
+
+                    // 🔹 Return URL
+                    options.ReturnUrlParameter = "returnUrl"; // Query string for redirect
+
+                });
+            #endregion
+
+            #region Add AutoMapper
+            builder.Services.AddAutoMapper(cfg =>
+            {
+                cfg.LicenseKey = builder.Configuration["AutoMapper:LicenseKey"];
+            }, typeof(AccountProfile).Assembly);  // Scans Core assembly for profiles 
+            #endregion
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

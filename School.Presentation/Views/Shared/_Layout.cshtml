@@ -1,4 +1,8 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
     Layout = null;
     var title = ViewData["Title"] ?? "Dashboard";
 }
@@ -31,150 +35,119 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        @* ✅ Check if user is logged in *@
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            @* ✅ If Instructor: Show Sidebar Dashboard *@
+            if (User.IsInRole("INSTRUCTOR"))
+            {
+                <!-- Sidebar -->
+                <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Home" asp-action="Index">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">School Dashboard</div>
-            </a>
+                    <!-- Sidebar - Brand -->
+                    <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Home" asp-action="Index">
+                        <div class="sidebar-brand-icon rotate-n-15">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="sidebar-brand-text mx-3">Instructor Dashboard</div>
+                    </a>
 
-            <hr class="sidebar-divider my-0" />
+                    <hr class="sidebar-divider my-0" />
 
-            <!-- Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Home" asp-action="Index">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
+                    <!-- Dashboard -->
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">
+                            <i class="fas fa-fw fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
 
-            <hr class="sidebar-divider" />
+                    <hr class="sidebar-divider" />
 
-            <!-- Main Menu -->
-            <div class="sidebar-heading">Main Menu</div>
+                    <div class="sidebar-heading">Management</div>
 
-            <!-- Students -->
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Student" asp-action="Index">
-                    <i class="fas fa-user-graduate"></i>
-                    <span>Students</span>
-                </a>
-            </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Course" asp-action="Index">
+                            <i class="fas fa-book-open"></i>
+                            <span>Courses</span>
+                        </a>
+                    </li>
 
-            <!-- Departments -->
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Department" asp-action="Index">
-                    <i class="fas fa-building"></i>
-                    <span>Departments</span>
-                </a>
-            </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Student" asp-action="Index">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>Students</span>
+                        </a>
+                    </li>
 
-            <!-- Courses -->
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Course" asp-action="Index">
-                    <i class="fas fa-book-open"></i>
-                    <span>Courses</span>
-                </a>
-            </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Department" asp-action="Index">
+                            <i class="fas fa-building"></i>
+                            <span>Departments</span>
+                        </a>
+                    </li>
 
-            <!-- Instructors -->
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Instructor" asp-action="Index">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                    <span>Instructors</span>
-                </a>
-            </li>
+                    <hr class="sidebar-divider d-none d-md-block" />
 
-            <!-- Privacy -->
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Home" asp-action="Privacy">
-                    <i class="fas fa-user-shield"></i>
-                    <span>Privacy Policy</span>
-                </a>
-            </li>
+                    <!-- Logout -->
+                    <li class="nav-item text-center mt-3">
+                        <form asp-controller="Account" asp-action="SignOut" method="get" class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-sign-out-alt me-1"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+                <!-- End of Sidebar -->
+            }
+            else if (User.IsInRole("STUDENT"))
+            {
+                @* ✅ If Student: Show Top Navbar *@
+                <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+                    <div class="container-fluid">
+                        <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">Student Portal</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-            <hr class="sidebar-divider d-none d-md-block" />
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Course" asp-action="Index">My Courses</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Department" asp-action="Index">Departments</a>
+                                </li>
+                            </ul>
 
-            <!-- Sidebar Toggler -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-        </ul>
-        <!-- End of Sidebar -->
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-flex">
+                                <button type="submit" class="btn btn-outline-danger">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                </nav>
+            }
+        }
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-            <!-- Main Content -->
             <div id="content">
-
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Student" asp-action="Index">Students</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Department" asp-action="Index">Departments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Course" asp-action="Index">Courses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Instructor" asp-action="Index">Instructors</a>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- End of Topbar -->
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="container-fluid mt-4">
                     @RenderBody()
                 </div>
-                <!-- /.container-fluid -->
             </div>
-            <!-- End of Main Content -->
+
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            <footer class="sticky-footer bg-white mt-auto">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>&copy; @DateTime.Now.Year - School.Presentation</span>
                     </div>
                 </div>
             </footer>
-            <!-- End of Footer -->
-        </div>
-        <!-- End of Content Wrapper -->
-    </div>
-    <!-- End of Page Wrapper -->
-    <!-- Logout Modal -->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                        <button class="btn btn-primary" type="submit">Logout</button>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -182,14 +155,7 @@
     <script src="~/vendor/jquery/jquery.min.js" asp-append-version="true"></script>
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/vendor/jquery-easing/jquery.easing.min.js" asp-append-version="true"></script>
-
-    <!-- SB Admin Scripts -->
     <script src="~/js/sb-admin-2.min.js" asp-append-version="true"></script>
-
-    <!-- Optional Chart.js -->
-    <script src="~/vendor/chart.js/Chart.min.js" asp-append-version="true"></script>
-
-    <!-- Site Scripts -->
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
